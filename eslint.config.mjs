@@ -47,7 +47,7 @@ export default [
 				node: true,
 				alias: {
 					map: [["@", "./src"]],
-					extensions: [".js", ".jsx"],
+					extensions: [".js", ".jsx", ".ts", ".tsx"],
 				},
 			},
 		},
@@ -59,6 +59,8 @@ export default [
 			"unicorn/no-null": "off",
 			"unicorn/no-nested-ternary": "off",
 			"unicorn/no-array-reduce": "off",
+			"@typescript-eslint/ban-types": "off",
+			"@typescript-eslint/strict-boolean-expressions": "off", // 允许更灵活的布尔表达式
 		},
 	},
 	pluginReact.configs.flat.recommended,

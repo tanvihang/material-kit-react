@@ -1,15 +1,3 @@
-export type Metric = {
-  title: string;
-  description: string;
-  minValue: number;
-  maxValue: number;
-  recommendedMin: number;
-  recommendedMax: number;
-  latestValue: number;
-  previousValue: number;
-  unit: string;
-}
-
 export type UserInformation = {
   name: string;
   age: number;
@@ -102,5 +90,4 @@ export type ReportData = {
   labResultAnalysisSection: LabResultAnalysisSection;
   assessmentSection: AssessmentSection;
   recommendationSection: RecommendationSection;
-  metrics: Metric[];
 }

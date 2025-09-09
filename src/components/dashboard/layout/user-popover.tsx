@@ -13,9 +13,10 @@ import { SignOutIcon } from '@phosphor-icons/react/dist/ssr/SignOut';
 import { UserIcon } from '@phosphor-icons/react/dist/ssr/User';
 
 import { paths } from '@/paths';
-import { authClient } from '@/lib/auth/client';
 import { logger } from '@/lib/default-logger';
 import { useUser } from '@/hooks/use-user';
+import { useAuth } from '@/hooks/use-auth';
+import { UserFacadeGetUserEmail } from '@/store/facade/user-facade';
 
 export interface UserPopoverProps {
   anchorEl: Element | null;
@@ -25,17 +26,16 @@ export interface UserPopoverProps {
 
 export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
   const { checkSession } = useUser();
+  const {signOut} = useAuth();
 
   const router = useRouter();
 
+  //* Global States
+  const userEmail = UserFacadeGetUserEmail();
+
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {
-      const { error } = await authClient.signOut();
-
-      if (error) {
-        logger.error('Sign out error', error);
-        return;
-      }
+      await signOut.mutateAsync();
 
       // Refresh the auth state
       await checkSession?.();
@@ -46,7 +46,7 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
     } catch (error) {
       logger.error('Sign out error', error);
     }
-  }, [checkSession, router]);
+  }, [checkSession, router, signOut]);
 
   return (
     <Popover
@@ -59,7 +59,7 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
       <Box sx={{ p: '16px 20px ' }}>
         <Typography variant="subtitle1">Sofia Rivers</Typography>
         <Typography color="text.secondary" variant="body2">
-          sofia.rivers@devias.io
+          {userEmail}
         </Typography>
       </Box>
       <Divider />

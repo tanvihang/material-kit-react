@@ -5,6 +5,7 @@ import "@/styles/global.css";
 
 import { NextIntlClientProvider } from "next-intl";
 
+import { QueryClientProviderWrapper } from "@/contexts/query-client-context";
 import { UserProvider } from "@/contexts/user-context";
 import { LocalizationProvider } from "@/components/core/localization-provider";
 import { ThemeProvider } from "@/components/core/theme-provider/theme-provider";
@@ -21,9 +22,11 @@ export default function LocaleLayout({ children }: LayoutProps): React.JSX.Eleme
 			<body>
 				<LocalizationProvider>
 					<NextIntlClientProvider>
-						<UserProvider>
-							<ThemeProvider>{children}</ThemeProvider>
-						</UserProvider>
+						<QueryClientProviderWrapper>
+							<UserProvider>
+								<ThemeProvider>{children}</ThemeProvider>
+							</UserProvider>
+						</QueryClientProviderWrapper>
 					</NextIntlClientProvider>
 				</LocalizationProvider>
 			</body>

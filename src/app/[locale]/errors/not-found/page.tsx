@@ -7,10 +7,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr/ArrowLeft';
 
-import { config } from '@/config';
 import { paths } from '@/paths';
+import { appConfig } from '@/config';
 
-export const metadata = { title: `Not found | Errors | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Not found | Errors | ${appConfig.site.name}` } satisfies Metadata;
 
 export default function NotFound(): React.JSX.Element {
   return (

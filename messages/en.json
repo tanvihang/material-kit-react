@@ -1,7 +1,32 @@
 {
+    "Auth":{
+        "SignIn":{
+            "signIn": "Sign In",
+            "dontHaveAnAccount": "Don't have an account?",
+            "signUp": "Sign Up",
+            "emailAddress": "Email Address",
+            "password": "Password",
+            "forgotPassword": "Forgot password?",
+            "Validation": {
+                "emailRequired": "Email is required",
+                "emailInvalid": "Email is invalid",
+                "passwordRequired": "Password is required",
+                "passwordMinLength": "Password must be at least 8 characters"
+            }
+        },
+        "ResetPassword": {
+            "resetPassword": "Reset Password",
+            "sendNewPassword": "Send New Password",
+            "emailAddress": "Email Address",
+            "Validation": {
+                "emailRequired": "Email is required",
+                "emailInvalid": "Email is invalid"
+            }
+        }
+    },
     "Dashboard": {
         "Settings": {
             "themeSettings": "Theme Settings"
         }
-    }
+    }    
 }

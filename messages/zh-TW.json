@@ -1,4 +1,29 @@
 {
+    "Auth":{
+        "SignIn":{
+            "signIn": "登入",
+            "dontHaveAnAccount": "還沒有帳號？",
+            "signUp": "註冊",
+            "emailAddress": "電子郵件地址",
+            "password": "密碼",
+            "forgotPassword": "忘記密碼？",
+            "Validation": {
+                "emailRequired": "需要電子郵件",
+                "emailInvalid": "電子郵件無效",
+                "passwordRequired": "需要密碼",
+                "passwordMinLength": "密碼至少需要8個字元"
+            }
+        },
+        "ResetPassword": {
+            "resetPassword": "重設密碼",
+            "sendNewPassword": "發送新密碼",
+            "emailAddress": "電子郵件地址",
+            "Validation": {
+                "emailRequired": "需要電子郵件",
+                "emailInvalid": "電子郵件無效"
+            }
+        }
+    },
     "Dashboard": {
         "Settings": {
             "themeSettings": "樣式設定"

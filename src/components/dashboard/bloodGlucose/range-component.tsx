@@ -1,7 +1,7 @@
 'use client';
 
 import { LabResultAnalysisDataType } from '@/types';
-import { Button } from '@mui/material';
+import { Box, Button, Typography, Stack } from '@mui/material';
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 
@@ -90,71 +90,85 @@ export default function RangeComponent({ data, isWomen, index, isEditing, onDele
     hasPreviousValue
   ]);
 
+  if(!latestValue) return <></>
+
   return (
-    <div className="metric-section" key={index}>
-        
-        <div>
-            <div>
-                <div className="metric-name">{title}</div>
-                <div className="metric-description">{description}</div>
-            </div>
+    <Box className="metric-section" key={index}>
+        {/* Header Section with Title, Description, and Action Buttons */}
+        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+            {/* Title and Description Section */}
+            <Box sx={{ flex: 1 }}>
+                <Typography variant="h6" className="metric-name">{title}</Typography>
+                <Typography variant="body2" color="text.secondary" className="metric-description">
+                    {description}
+                </Typography>
+            </Box>
 
-            <div>
-                {
-                    isEditing && (
-                        <Button
-                            size='small'
-                            onClick={() => {onDelete()}}
-                        >
-                            Delete
-                        </Button>
-                    )
-                }
-
-                {
-                    isEditing && (
-                        <Button
-                            size='small'
-                            onClick={() => {onEdit()}}
-                        >
-                            Edit
-                        </Button>
-                    )
-                }
-            </div>
-        </div>
+            {/* Action Buttons Section */}
+            {isEditing && (
+                <Stack direction="row" spacing={1}>
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        color="error"
+                        onClick={onDelete}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={onEdit}
+                    >
+                        Edit
+                    </Button>
+                </Stack>
+            )}
+        </Stack>
 
       
-      <div className="metric-value">
-        <div className={`current-value ${isLatestInRange ? '' : 'out-of-range'}`}>
+      <Box className="metric-value" sx={{ mt: 2 }}>
+        <Typography 
+          variant="h5" 
+          className={`current-value ${isLatestInRange ? '' : 'out-of-range'}`}
+          sx={{ fontWeight: 'bold' }}
+        >
           {hasLatestValue ? `${latestValue} ${unit}` : 'No data'}
-        </div>
-        <div className="status-text">{statusText}</div>
-      </div>
+        </Typography>
+        <Typography variant="body2" className="status-text" color="text.secondary">
+          {statusText}
+        </Typography>
+      </Box>
       
-      <div className="range-container">
-        <div 
+      {/* Range Visualization Section */}
+      <Box className="range-container" sx={{ position: 'relative', mt: 2 }}>
+        <Box 
           ref={rangeBarRef}
           className="range-bar"
-        ></div>
+        />
         {hasLatestValue && (
-          <div 
+          <Box 
             ref={latestMarkerRef}
             className={`value-marker latest-marker ${isLatestInRange ? '' : 'out-of-range'}`}
-          ></div>
+          />
         )}
         {hasPreviousValue && (
-          <div 
+          <Box 
             ref={previousMarkerRef}
             className={`value-marker previous-marker ${isPreviousInRange ? '' : 'out-of-range'}`}
-          ></div>
+          />
         )}
-      </div>
+      </Box>
       
-      <div className="range-labels">
-        <span>{effectiveMinValue}</span>
-        <span>{effectiveMaxValue}</span>
-      </div>
-    </div>
+      {/* Range Labels Section */}
+      <Stack direction="row" justifyContent="space-between" className="range-labels" sx={{ mt: 1 }}>
+        <Typography variant="caption" color="text.secondary">
+          {effectiveMinValue}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          {effectiveMaxValue}
+        </Typography>
+      </Stack>
+    </Box>
   );
 }

@@ -15,7 +15,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import type { LabResultAnalysisDataType } from '@/types/health';
+import type { LabResultAnalysisDataType } from '@/types';
 
 interface AddLabItemDialogProps {
   open: boolean;

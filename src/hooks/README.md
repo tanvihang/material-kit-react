@@ -1,4 +1,4 @@
-# hooks/
+# hooks
 
 ## 作用
 

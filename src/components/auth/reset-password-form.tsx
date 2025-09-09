@@ -12,16 +12,31 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
-
-import { authClient } from '@/lib/auth/client';
-
-const schema = zod.object({ email: zod.string().min(1, { message: 'Email is required' }).email() });
-
-type Values = zod.infer<typeof schema>;
-
-const defaultValues = { email: '' } satisfies Values;
+import { useTranslations } from 'next-intl';
+import { useAuth } from '@/hooks/use-auth';
 
 export function ResetPasswordForm(): React.JSX.Element {
+
+  const t = useTranslations('Auth.ResetPassword');
+
+  const schema = React.useMemo(() => zod.object({
+    email: zod
+      .string()
+      .min(1, { message: t('Validation.emailRequired') })
+      .email({ message: t('Validation.emailInvalid') }),
+  }), [t]);
+
+  const resolver = React.useMemo(() => zodResolver(schema), [schema]);
+
+  type Values = zod.infer<typeof schema>;
+
+  const defaultValues = { email: '' } satisfies Values;
+
+
+  //* Custom Hooks
+  const {resetPassword} = useAuth();
+
+
   const [isPending, setIsPending] = React.useState<boolean>(false);
 
   const {
@@ -29,30 +44,32 @@ export function ResetPasswordForm(): React.JSX.Element {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+  } = useForm<Values>({ defaultValues, resolver: resolver });
 
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { error } = await authClient.resetPassword(values);
+      try{
+        await resetPassword.mutateAsync(values);
 
-      if (error) {
-        setError('root', { type: 'server', message: error });
         setIsPending(false);
-        return;
       }
+      catch(error: unknown){
 
-      setIsPending(false);
+        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+        console.log("Reset Password Error:", errorMessage);
+        setError('root', { type: 'server', message: errorMessage });
+        setIsPending(false);
 
-      // Redirect to confirm password reset
+      }
     },
-    [setError]
+    [setError, resetPassword]
   );
 
   return (
     <Stack spacing={4}>
-      <Typography variant="h5">Reset password</Typography>
+      <Typography variant="h5">{t('resetPassword')}</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Controller
@@ -60,15 +77,15 @@ export function ResetPasswordForm(): React.JSX.Element {
             name="email"
             render={({ field }) => (
               <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email address</InputLabel>
-                <OutlinedInput {...field} label="Email address" type="email" />
+                <InputLabel>{t('emailAddress')}</InputLabel>
+                <OutlinedInput {...field} label={t('emailAddress')} type="email" />
                 {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
               </FormControl>
             )}
           />
           {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
           <Button disabled={isPending} type="submit" variant="contained">
-            Send recovery link
+            {t('sendNewPassword')}
           </Button>
         </Stack>
       </form>
