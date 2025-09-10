@@ -11,13 +11,16 @@ import { TasksProgress } from '@/components/dashboard/overview/tasks-progress';
 import { TotalCustomers } from '@/components/dashboard/overview/total-customers';
 import { TotalProfit } from '@/components/dashboard/overview/total-profit';
 import { Traffic } from '@/components/dashboard/overview/traffic';
-import { appConfig } from '@/config';
+import { appConfig} from '@/config';
 
 export const metadata = { title: `Overview | Dashboard | ${appConfig.site.name}` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
+
+
   return (
     <Grid container spacing={3}>
+
       <Grid
         size={{
           lg: 3,

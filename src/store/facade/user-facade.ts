@@ -1,3 +1,4 @@
+import { UserTypeEnum } from "@/types";
 import useUserStore from "../stores/user-store";
 
 export const UserFacadeGetUserEmail = () => {
@@ -6,6 +7,14 @@ export const UserFacadeGetUserEmail = () => {
 
 export const UserFacadeSetUserEmail = (email: string) => {
     useUserStore.getState().setUserEmail(email);
+}
+
+export const UserFacadeGetUserType = () => {
+    return useUserStore(t => t.userType)
+}
+
+export const UserFacadeSetUserType = (type: UserTypeEnum) => {
+    useUserStore.getState().setUserType(type);
 }
 
 export const UserFacadeClearAllUserStore = () => {

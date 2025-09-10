@@ -1,6 +1,7 @@
 import { loginGraphQLApi, resetPasswordGraphQLApi } from "@/api/graphql/auth"
 import { STORAGE_KEYS } from "@/config";
-import { UserFacadeClearAllUserStore, UserFacadeSetUserEmail } from "@/store/facade/user-facade";
+import { UserFacadeClearAllUserStore, UserFacadeSetUserEmail, UserFacadeSetUserType } from "@/store/facade/user-facade";
+import { UserTypeEnum } from "@/types";
 import { LoginParams, ResetPasswordParams } from "@/types/api/graphql/auth-type"
 import { getGraphQLErrorMessage } from "@/utils/graphql/graph-ql-client-util";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,8 +15,10 @@ export const useAuth = () => {
             return loginGraphQLApi(params);
         },
         onSuccess: async (data) => {
+            console.log("Login Successful:", data);
             localStorage.setItem(STORAGE_KEYS.accessToken, data.AccessToken);
             UserFacadeSetUserEmail(data.LoginEmail);
+            UserFacadeSetUserType(data.UserType as UserTypeEnum);
         },
         onError: (error) => {
             const errorMessage = getGraphQLErrorMessage(error);

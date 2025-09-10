@@ -9,3 +9,8 @@ export enum GenderEnum {
     FEMALE = "Female",
     UNDISCLOSED = "Undisclosed"
 }
+
+export enum UserRelationshipEnum {
+    PROVIDER = "Provider",
+    FRIEND = "Friend"
+}

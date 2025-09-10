@@ -1,2 +1,2 @@
 export type * from './health'
-export type * from './enums'
+export * from './enums'
